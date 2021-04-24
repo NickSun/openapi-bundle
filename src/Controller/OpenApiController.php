@@ -1,8 +1,8 @@
 <?php
 
-namespace Nicksun\OpenApi\Controller;
+namespace NickSun\OpenApi\Controller;
 
-use Nicksun\OpenApi\Service\YamlDataProvider;
+use NickSun\OpenApi\Service\YamlDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Response;

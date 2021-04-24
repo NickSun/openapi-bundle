@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicksun\OpenApi\Service;
+namespace NickSun\OpenApi\Service;
 
 use DirectoryIterator;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

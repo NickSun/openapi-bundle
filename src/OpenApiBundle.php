@@ -1,6 +1,6 @@
 <?php
 
-namespace Nicksun\OpenApi;
+namespace NickSun\OpenApi;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -4,6 +4,6 @@ services:
     autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
     public: false
 
-  Nicksun\OpenApi\:
+  NickSun\OpenApi\:
     resource: '../../*'
     exclude: '../../{DependencyInjection,Resources}'
