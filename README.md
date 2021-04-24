@@ -92,72 +92,66 @@ config/
 You can use yaml anchors defined in the different files only if they defined on the top root document level (without indentation).
 
 ```yaml
+// config/openapi/anchor/schemas.yaml
+
+components:
+  schemas:
+    ApiProblemValidation:
+      type: object
+      description: Validation error
+      properties:
+        invalid-params:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                description: Error name
+                example: email
+              reason:
+                type: string
+                description: Error reason
+                example: Invalid email
+        type:
+          type: string
+          example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+        title:
+          type: string
+          example: Validation error
+        status:
+          type: integer
+          format: int64
+          description: HTTP status code
+          example: 400
+        detail:
+          type: string
+          example: Validation error
+        code:
+          type: integer
+          format: int64
+          description: Error code
+          example: 12
+        instance:
+          type: string
+          example: /users
+```
+```yaml
 // config/openapi/anchor/response.yaml
 
-400BadRequest: &400BadRequest
+400Validation: &400Validation
   400:
     description: Bad request
     content:
       application/json:
         schema:
-          type: object
-          description: Validation error
-          properties:
-            invalid-params:
-              type: array
-              items:
-                type: object
-                properties:
-                  name:
-                    type: string
-                    description: Error name
-                    example: email
-                  reason:
-                    type: string
-                    description: Error reason
-                    example: Invalid email
-            type:
-              type: string
-              example: https://mysite.com/readme
-            title:
-              type: string
-              example: Validation error
-            status:
-              type: integer
-              format: int32
-              description: HTTP status code
-              example: 400
-            detail:
-              type: string
-              example: Validation error
-            code:
-              type: integer
-              format: int32
-              description: Error code
-              example: 12
-            instance:
-              type: string
-              example: /users
+          $ref: '#/components/schemas/ApiProblemValidation'
 ```
 ```yaml
 // config/openapi/user/paths.yaml
 
 paths:
   /users:
-    get:
-      tags:
-        - user
-      description: Returns all registered users.
-      summary: Get all registered users.
-      responses:
-        200:
-          description: A list of users.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
     post:
       tags:
         - user
