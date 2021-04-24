@@ -1,0 +1,4 @@
+open_api:
+  definitions_dir: openapi
+  swagger_ui_version: 3.46.0
+  title: Swagger UI

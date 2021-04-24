@@ -1,0 +1,4 @@
+open_api.api_doc:
+  path: /api/doc
+  controller: Nicksun\OpenApi\Controller\OpenApiController
+  methods: GET

@@ -1,0 +1,24 @@
+{
+  "name": "nicksun/openapi-bundle",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "description": "OpenAPI Symfony bundle",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.0",
+    "symfony/yaml": "5.2.*",
+    "twig/twig": "^2.12|^3.0"
+  },
+  "config": {
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Nicksun\\OpenApi\\": "src/"
+    }
+  }
+}
