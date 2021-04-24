@@ -76,7 +76,7 @@ class YamlDataProvider
                 if (1 === preg_match('/:$|: +&/', $line)) {
                     $prevPosition[$pos][$rawLine] = [];
                     $prevPosition[$indent] = &$prevPosition[$pos][$rawLine];
-                    $this->removeExcessLinks($prevPosition, $indent);
+                    $this->removeExcessReferences($prevPosition, $indent);
                 } elseif (\array_key_exists($pos, $prevPosition)) {
                     $prevPosition[$pos][] = $rawLine;
                 } else {
@@ -88,7 +88,7 @@ class YamlDataProvider
                 $fileData[$rawLine] = [];
                 $prevIndent = 0;
                 $prevPosition[$prevIndent] = &$fileData[$rawLine];
-                $this->removeExcessLinks($prevPosition, $prevIndent);
+                $this->removeExcessReferences($prevPosition, $prevIndent);
             }
         }
 
@@ -130,7 +130,7 @@ class YamlDataProvider
         return $data;
     }
 
-    private function removeExcessLinks(array &$links, int $position): void
+    private function removeExcessReferences(array &$links, int $position): void
     {
         foreach ($links as $key => $value) {
             if ($key <= $position) {
