@@ -68,19 +68,29 @@ class YamlDataProvider
                 continue;
             }
 
-            if (1 === preg_match('/^ +(?!\S)/', $rawLine, $matches)) {
+            $matches = [];
+
+            if ($this->isIndentExists($rawLine, $matches)) {
                 $indent = \strlen($matches[0]) + 1;
                 $initIndent ??= $indent;
                 $pos = $indent > $prevIndent ? $prevIndent : $indent - $initIndent;
 
-                if (1 === preg_match('/:$|: +&/', $line)) {
+                if ($this->isContainsNestedParents($line, $prevPosition, $pos - $initIndent)) {
                     $prevPosition[$pos][$rawLine] = [];
                     $prevPosition[$indent] = &$prevPosition[$pos][$rawLine];
                     $this->removeExcessReferences($prevPosition, $indent);
-                } elseif (\array_key_exists($pos, $prevPosition)) {
-                    $prevPosition[$pos][] = $rawLine;
                 } else {
-                    $prevPosition[$pos - $initIndent][] = $rawLine;
+                    $prevPos = $pos;
+
+                    while ($prevPos >= 0) {
+                        if (\array_key_exists($prevPos, $prevPosition)) {
+                            $prevPosition[$prevPos][] = $rawLine;
+                            $this->removeExcessReferences($prevPosition, $prevPos);
+                            break;
+                        }
+
+                        $prevPos -= $initIndent;
+                    }
                 }
 
                 $prevIndent = $indent;
@@ -95,19 +105,9 @@ class YamlDataProvider
         return $fileData;
     }
 
-    private function arrayToString(array $data): string
+    private function isIndentExists(string $rawLine, array &$matches): bool
     {
-        $result = '';
-
-        foreach ($data as $key => $value) {
-            if (\is_array($value)) {
-                $result .= $key.$this->arrayToString($value).\PHP_EOL;
-            } else {
-                $result .= $value.\PHP_EOL;
-            }
-        }
-
-        return $result;
+        return 1 === preg_match('/^ +(?!\S)/', $rawLine, $matches);
     }
 
     private function arrangeDefinitions(array $data): array
@@ -130,6 +130,17 @@ class YamlDataProvider
         return $data;
     }
 
+    private function isContainsNestedParents(string $line, array $prevPosition, int $pos): bool
+    {
+        $isPossibleParrentNode = 1 === preg_match('/:$|: +&/', $line);
+
+        if ($isPossibleParrentNode && \array_key_exists($pos, $prevPosition)) {
+            return 1 === preg_match('/:$|: +&/', trim(\array_key_last($prevPosition[$pos])));
+        }
+
+        return $isPossibleParrentNode;
+    }
+
     private function removeExcessReferences(array &$links, int $position): void
     {
         foreach ($links as $key => $value) {
@@ -139,5 +150,20 @@ class YamlDataProvider
 
             unset($links[$key]);
         }
+    }
+
+    private function arrayToString(array $data): string
+    {
+        $result = '';
+
+        foreach ($data as $key => $value) {
+            if (\is_array($value)) {
+                $result .= $key.$this->arrayToString($value).\PHP_EOL;
+            } else {
+                $result .= $value.\PHP_EOL;
+            }
+        }
+
+        return str_replace(\PHP_EOL.\PHP_EOL.\PHP_EOL, \PHP_EOL, $result);
     }
 }
