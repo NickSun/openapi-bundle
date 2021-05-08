@@ -132,13 +132,13 @@ class YamlDataProvider
 
     private function isContainsNestedParents(string $line, array $prevPosition, int $pos): bool
     {
-        $isPossibleParrentNode = 1 === preg_match('/:$|: +&/', $line);
+        $isPossibleParentNode = 1 === preg_match('/:$|: +&/', $line);
 
-        if ($isPossibleParrentNode && \array_key_exists($pos, $prevPosition)) {
+        if ($isPossibleParentNode && \array_key_exists($pos, $prevPosition)) {
             return 1 === preg_match('/:$|: +&/', trim(\array_key_last($prevPosition[$pos])));
         }
 
-        return $isPossibleParrentNode;
+        return $isPossibleParentNode;
     }
 
     private function removeExcessReferences(array &$links, int $position): void
