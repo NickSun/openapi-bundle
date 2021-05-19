@@ -132,10 +132,10 @@ class YamlDataProvider
 
     private function isContainsNestedParents(string $line, array $prevPosition, int $pos): bool
     {
-        $isPossibleParentNode = 1 === preg_match('/:$|: +&/', $line);
+        $isPossibleParentNode = 1 === preg_match('/:$|: +&|^- +name: +[\w\-]+/', $line);
 
         if ($isPossibleParentNode && \array_key_exists($pos, $prevPosition)) {
-            return 1 === preg_match('/:$|: +&/', trim(\array_key_last($prevPosition[$pos])));
+            return 1 === preg_match('/:$|: +&|^- +name: +[\w\-]+/', trim(\array_key_last($prevPosition[$pos])));
         }
 
         return $isPossibleParentNode;
@@ -158,12 +158,12 @@ class YamlDataProvider
 
         foreach ($data as $key => $value) {
             if (\is_array($value)) {
-                $result .= $key.$this->arrayToString($value).\PHP_EOL;
+                $result .= $key.$this->arrayToString($value);
             } else {
-                $result .= $value.\PHP_EOL;
+                $result .= str_ends_with($value, \PHP_EOL) ? $value : $value.\PHP_EOL;
             }
         }
 
-        return str_replace(\PHP_EOL.\PHP_EOL.\PHP_EOL, \PHP_EOL, $result);
+        return $result;
     }
 }
