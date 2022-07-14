@@ -73,18 +73,18 @@ Use [OpenAPI Specification](https://swagger.io/specification/) for defining your
 Organize your folder structure wisely.
 
 ```bash
-config/
-└── openapi
-    ├── anchor
-    │   ├── response.yaml
-    │   └── schemas.yaml
-    ├── book
-    │   ├── paths.yaml
-    │   └── schemas.yaml
-    ├── openapi.yaml
-    └── user
-        ├── paths.yaml
-        └── schemas.yaml
+openapi
+├── anchor
+│   ├── response.yaml
+│   └── schemas.yaml
+├── book
+│   ├── paths.yaml
+│   └── schemas.yaml
+├── openapi.yaml
+└── user
+    ├── paths.yaml
+    └── schemas.yaml
+
 ```
 
 ### Limitations
@@ -92,7 +92,7 @@ config/
 You can use yaml anchors defined in the different files only if they defined on the top root document level (without indentation).
 
 ```yaml
-// config/openapi/anchor/schemas.yaml
+// openapi/anchor/schemas.yaml
 
 components:
   schemas:
@@ -137,7 +137,7 @@ components:
           example: /users
 ```
 ```yaml
-// config/openapi/anchor/response.yaml
+// openapi/anchor/response.yaml
 
 400Validation: &400Validation
   400:
@@ -148,7 +148,7 @@ components:
           $ref: '#/components/schemas/ApiProblemValidation'
 ```
 ```yaml
-// config/openapi/user/paths.yaml
+// openapi/user/paths.yaml
 
 paths:
   /users:

@@ -1,0 +1,15 @@
+x-400BadRequest: &400BadRequest
+  400:
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ApiProblemBadRequest'
+
+x-500InternalServerError: &500InternalServerError
+  500:
+    description: Internal Server Error
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ApiProblemInternalServerError'

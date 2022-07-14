@@ -18,7 +18,7 @@ class YamlDataProvider
     public function getDefinitions(): array
     {
         $definitionsDir = sprintf(
-            '%s/config/%s',
+            '%s/%s',
             $this->params->get('kernel.project_dir'),
             $this->params->get('open_api.definitions_dir'),
         );

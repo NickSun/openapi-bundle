@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  php:
+    build:
+      context: .
+      args:
+        - UID
+        - PHP_IMAGE
+    env_file:
+      - .env
+    tty: true
+    volumes:
+      - ./:/var/www

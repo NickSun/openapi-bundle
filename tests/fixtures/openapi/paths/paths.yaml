@@ -1,0 +1,28 @@
+paths:
+  /test-path:
+    get:
+      tags:
+        - tag1
+      description: |-
+        Some long
+        multiline description.
+      summary: Short summary.
+      parameters:
+        - $ref: '#/x-parameters/limit'
+        - name: param
+          in: query
+          description: Some param in the query string.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of articles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestSchema'
+        <<: *400BadRequest
+        <<: *500InternalServerError

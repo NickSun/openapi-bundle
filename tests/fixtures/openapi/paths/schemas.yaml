@@ -1,0 +1,28 @@
+components:
+  schemas:
+    Param1Example:
+      type: object
+      properties:
+        param1:
+          type: string
+          example: custom value
+    Param2Example:
+      type: object
+      properties:
+        param2:
+          type: integer
+          format: int32
+          example: 123
+    TestSchema:
+      type: object
+      required:
+        - name
+      allOf:
+        - $ref: '#/components/schemas/Param1Example'
+        - $ref: '#/components/schemas/Param2Example'
+      properties:
+        name:
+          type: string
+          description: |
+            Multiline
+            description

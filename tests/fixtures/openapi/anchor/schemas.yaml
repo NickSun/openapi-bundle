@@ -1,0 +1,39 @@
+components:
+  schemas:
+    ApiProblemBadRequest:
+      type: object
+      description: Bad Request
+      properties:
+        type:
+          type: string
+          example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+        title:
+          type: string
+          example: Bad Request
+        status:
+          type: integer
+          format: int64
+          description: HTTP status code
+          example: 400
+        detail:
+          type: string
+          example: Malformed request
+
+    ApiProblemInternalServerError:
+      type: object
+      description: Internal Server Error
+      properties:
+        type:
+          type: string
+          example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+        title:
+          type: string
+          example: Internal Server Error
+        status:
+          type: integer
+          format: int64
+          description: HTTP status code
+          example: 500
+        detail:
+          type: string
+          example: Internal Server Error

@@ -1,0 +1,160 @@
+openapi: 3.0.0
+
+x-400BadRequest: &400BadRequest
+  400:
+    description: Bad request
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ApiProblemBadRequest'
+
+x-500InternalServerError: &500InternalServerError
+  500:
+    description: Internal Server Error
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/ApiProblemInternalServerError'
+
+info:
+  title: Swagger 3.0
+  description: |
+    Documentation description
+  version: 1.0.0
+servers:
+  - url: /api/v1
+    description: API over HTTP(S)
+components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ApiProblemBadRequest:
+      type: object
+      description: Bad Request
+      properties:
+        type:
+          type: string
+          example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+        title:
+          type: string
+          example: Bad Request
+        status:
+          type: integer
+          format: int64
+          description: HTTP status code
+          example: 400
+        detail:
+          type: string
+          example: Malformed request
+
+    ApiProblemInternalServerError:
+      type: object
+      description: Internal Server Error
+      properties:
+        type:
+          type: string
+          example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+        title:
+          type: string
+          example: Internal Server Error
+        status:
+          type: integer
+          format: int64
+          description: HTTP status code
+          example: 500
+        detail:
+          type: string
+          example: Internal Server Error
+
+    Param1Example:
+      type: object
+      properties:
+        param1:
+          type: string
+          example: custom value
+
+    Param2Example:
+      type: object
+      properties:
+        param2:
+          type: integer
+          format: int32
+          example: 123
+
+    TestSchema:
+      type: object
+      required:
+        - name
+      allOf:
+        - $ref: '#/components/schemas/Param1Example'
+        - $ref: '#/components/schemas/Param2Example'
+      properties:
+        name:
+          type: string
+          description: |
+            Multiline
+            description
+
+externalDocs:
+  description: OpenApi Specification
+  url: https://swagger.io/specification/
+tags:
+  - name: tag1
+    description: Test tag 1
+  - name: tag2
+    description: Test tag 2
+paths:
+  /test-path:
+    get:
+      tags:
+        - tag1
+      description: |-
+        Some long
+        multiline description.
+      summary: Short summary.
+      parameters:
+        - $ref: '#/x-parameters/limit'
+        - name: param
+          in: query
+          description: Some param in the query string.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: List of articles.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestSchema'
+        <<: *400BadRequest
+        <<: *500InternalServerError
+
+x-parameters:
+  page:
+    name: page
+    in: query
+    description: Page number.
+    example: 5
+    default: 1
+    schema:
+      minimum: 1
+      type: integer
+      format: int64
+  limit:
+    name: limit
+    in: query
+    description: Number of items per page.
+    example: 10
+    default: 10
+    schema:
+      maximum: 100
+      minimum: 1
+      type: integer
+      format: int64
