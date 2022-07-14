@@ -1,3 +1,4 @@
+/.run/
 /tests/coverage/
 /tests/.phpunit.result.cache
 /vendor
