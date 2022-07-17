@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('openapi');
         $rootNode = $treeBuilder->getRootNode();
@@ -15,9 +15,9 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->variableNode('definitions_dir')->defaultValue('openapi')->end()
-                ->variableNode('swagger_ui_version')->defaultValue('3.46.0')->end()
-                ->variableNode('title')->defaultValue('Swagger UI')->end()
-            ->end();
+                ?->variableNode('swagger_ui_version')->defaultValue('3.46.0')->end()
+                ?->variableNode('title')->defaultValue('Swagger UI')->end()
+            ?->end();
 
         return $treeBuilder;
     }
