@@ -75,7 +75,7 @@ class YamlDataProvider
                 $initIndent ??= $indent;
                 $pos = $indent > $prevIndent ? $prevIndent : $indent - $initIndent;
 
-                if ($this->isContainsNestedParents($line, $prevPosition, $pos - $initIndent)) {
+                if ($this->isParentNode($line, $prevPosition, $pos - $initIndent)) {
                     $prevPosition[$pos][$rawLine] = [];
                     $prevPosition[$indent] = &$prevPosition[$pos][$rawLine];
                     $this->removeExcessReferences($prevPosition, $indent);
@@ -130,7 +130,7 @@ class YamlDataProvider
         return $data;
     }
 
-    private function isContainsNestedParents(string $line, array $prevPosition, int $pos): bool
+    private function isParentNode(string $line, array $prevPosition, int $pos): bool
     {
         $isPossibleParentNode = 1 === preg_match('/:$|: +&|^- +name: +[\w\-]+/', $line);
 
