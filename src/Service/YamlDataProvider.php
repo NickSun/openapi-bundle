@@ -55,13 +55,14 @@ class YamlDataProvider
         $initIndent = null;
         $prevIndent = 0;
         $prevPosition = [];
-        $rawData = file($filePath);
+        $filePointer = fopen($filePath, 'rb');
 
-        if (false === $rawData) {
-            return $fileData;
+        if (!$filePointer) {
+            return [];
         }
 
-        foreach ($rawData as $rawLine) {
+        while (!feof($filePointer)) {
+            $rawLine = fgets($filePointer);
             $line = trim($rawLine);
 
             if ('' === $line || str_starts_with($line, '#')) {
@@ -101,6 +102,8 @@ class YamlDataProvider
                 $this->removeExcessReferences($prevPosition, $prevIndent);
             }
         }
+
+        fclose($filePointer);
 
         return $fileData;
     }
